@@ -1,0 +1,18 @@
+{
+    "name": "adiesel82/sypexgeo-laravel",
+    "description": "SypexGeo Laravel 5.5 service",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexey",
+            "email": "starostenko@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-0": {
+            "ADiesel82\\SypexGeo": "src/"
+        }
+    },
+}
