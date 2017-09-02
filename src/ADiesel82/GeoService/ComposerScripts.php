@@ -1,13 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: air
- * Date: 02.09.17
- * Time: 7:22
- */
 
 namespace ADiesel82\GeoService;
 
+use Composer\Script\Event;
 
 class ComposerScripts
 {
@@ -52,7 +47,7 @@ class ComposerScripts
                 static::download($config[$driver]['source'], $config['store_path'], $config[$driver]['filename']);
                 $io->write("<info>SxGeo database update finished</info>");
             } catch (\Exception $e) {
-                $io->write("<warning>"$e->getMessage() . "</warning>");
+                $io->write("<warning>" . $e->getMessage() . "</warning>");
             }
         }
 
