@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "ADiesel82\\GeoService": "src/"
+            "ADiesel82\\GeoService\\": "src/"
         }
     }
 }
