@@ -9,10 +9,12 @@
             "email": "starostenko@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=5.4.0"
+    },
     "autoload": {
-        "psr-0": {
-            "ADiesel82\\SypexGeo": "src/"
+        "psr-4": {
+            "ADiesel82\\GeoService": "src/"
         }
     }
 }

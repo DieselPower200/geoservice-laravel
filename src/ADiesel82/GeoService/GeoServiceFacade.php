@@ -1,9 +1,9 @@
 <?php
-namespace ADiesel82\SypexGeo;
+namespace ADiesel82\GeoService;
 
 use Illuminate\Support\Facades\Facade;
 
-class SypexGeoFacade extends Facade
+class GeoServiceFacade extends Facade
 {
 
     /**
