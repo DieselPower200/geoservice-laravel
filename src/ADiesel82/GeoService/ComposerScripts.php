@@ -32,18 +32,18 @@ class ComposerScripts
         self::downloadDatabases();
     }
 
-    protected static function downloadDatabases($event)
+    protected static function downloadDatabases()
     {
 
         $io = self::$event->getIO();
 
-        $app = new Application(getcwd());
-        $config = $app->config('geo');
+        $app = new \Illuminate\Foundation\Application();
+        $config = require implode(DIRECTORY_SEPARATOR, [getcwd(), 'config', 'geo.php']);
         $driver = $config['driver'];
 
         if (isset($config[$driver]['source'])) {
             try {
-                $io->write("<info>" . $config[$driver] . " database update</info>");
+                $io->write("<info>" . $driver . " database update</info>");
                 static::download($config[$driver]['source'], $config['store_path'], $config[$driver]['filename']);
                 $io->write("<info>SxGeo database update finished</info>");
             } catch (\Exception $e) {
@@ -59,7 +59,7 @@ class ComposerScripts
         $io = self::$event->getIO();
         $io->write(sprintf("Database update url is `%s`...", $downloadFrom));
         $io->write("Starting download...");
-        $tmpFilename = 'tmp_' . $destinationFilename;
+        $tmpFilename = implode(DIRECTORY_SEPARATOR, [getcwd(), $destinationPath, 'tmp_' . basename($downloadFrom)]);
 
         $downloadFile = fopen($tmpFilename, "w");
         $last = null;
@@ -73,7 +73,7 @@ class ComposerScripts
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_NOPROGRESS, 0);
-        curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, function ($clientp, $dltotal, $dlnow) use ($io, & $last) {
+        curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, function ($clientp, $dltotal, $dlnow) use ($io, &$last) {
             if ($dltotal != 0) {
                 $now = number_format($dlnow / (1024 * 1024), 2);
                 $total = number_format($dltotal / (1024 * 1024), 2);
@@ -94,6 +94,7 @@ class ComposerScripts
         $io->write("Download completed");
 
         $destinationFile = implode(DIRECTORY_SEPARATOR, [
+            getcwd(),
             $destinationPath,
             $destinationFilename
         ]);
@@ -110,10 +111,10 @@ class ComposerScripts
             /* Extract Zip File */
             $zip->extractTo($destinationFile);
             $zip->close();
-
+            unlink($tmpFilename);
         } else {
             if (!rename($tmpFilename, $destinationFile)) {
-                throw new \Exception("Can't rename temporary file '$tmpFilename' to '$destinationFile'");
+                throw new \Exception("Can't rename temporary file '$downloadFile' to '$destinationFile'");
             }
         }
         $io->write(sprintf("Fresh database you can find here `%s`.", $destinationFile));
