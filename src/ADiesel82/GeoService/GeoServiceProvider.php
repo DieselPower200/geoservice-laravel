@@ -14,7 +14,7 @@ class GeoServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../../config/geo.php' => config_path('geo.php'),
+            __DIR__ . '/../config/geo.php' => config_path('geo.php'),
         ]);
     }
 

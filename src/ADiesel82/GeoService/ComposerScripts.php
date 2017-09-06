@@ -41,10 +41,10 @@ class ComposerScripts
         $config = require implode(DIRECTORY_SEPARATOR, [getcwd(), 'config', 'geo.php']);
         $driver = $config['driver'];
 
-        if (isset($config[$driver]['source'])) {
+        if (isset($config[$driver]['download'])) {
             try {
                 $io->write("<info>" . $driver . " database update</info>");
-                static::download($config[$driver]['source'], $config['store_path'], $config[$driver]['filename']);
+                static::download($config[$driver]['download'], implode(DIRECTORY_SEPARATOR, [getcwd(), trim($config['store_path'], DIRECTORY_SEPARATOR)]), $config[$driver]['filename']);
                 $io->write("<info>SxGeo database update finished</info>");
             } catch (\Exception $e) {
                 $io->write("<warning>" . $e->getMessage() . "</warning>");
@@ -59,7 +59,8 @@ class ComposerScripts
         $io = self::$event->getIO();
         $io->write(sprintf("Database update url is `%s`...", $downloadFrom));
         $io->write("Starting download...");
-        $tmpFilename = implode(DIRECTORY_SEPARATOR, [getcwd(), $destinationPath, 'tmp_' . basename($downloadFrom)]);
+
+        $tmpFilename = implode(DIRECTORY_SEPARATOR, [$destinationPath, 'tmp_' . basename($downloadFrom)]);
 
         $downloadFile = fopen($tmpFilename, "w");
         $last = null;
@@ -94,7 +95,6 @@ class ComposerScripts
         $io->write("Download completed");
 
         $destinationFile = implode(DIRECTORY_SEPARATOR, [
-            getcwd(),
             $destinationPath,
             $destinationFilename
         ]);
@@ -109,13 +109,13 @@ class ComposerScripts
             }
             $defaultFileName = $zip->getNameIndex(0);
             /* Extract Zip File */
-            $zip->extractTo($destinationFile);
+            $zip->extractTo($destinationPath);
             $zip->close();
             unlink($tmpFilename);
-        } else {
-            if (!rename($tmpFilename, $destinationFile)) {
-                throw new \Exception("Can't rename temporary file '$downloadFile' to '$destinationFile'");
-            }
+            $tmpFilename = implode(DIRECTORY_SEPARATOR, [$destinationPath, $defaultFileName]);
+        }
+        if (!rename($tmpFilename, $destinationFile)) {
+            throw new \Exception("Can't rename temporary file '$downloadFile' to '$destinationFile'");
         }
         $io->write(sprintf("Fresh database you can find here `%s`.", $destinationFile));
     }

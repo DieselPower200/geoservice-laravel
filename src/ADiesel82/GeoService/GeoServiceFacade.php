@@ -13,6 +13,6 @@ class GeoServiceFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'sypexgeo';
+        return 'geo';
     }
 }
