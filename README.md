@@ -1,5 +1,6 @@
-# sypexgeo-laravel
-GeoIP Laravel 5.5 service
+# adiesel82/geoservice-laravel
+
+**GeoIP Laravel 5.5 service**
 
 For the current moment SyperGeo service implemented only: https://sypexgeo.net
 
@@ -7,7 +8,7 @@ Plaese follow next steps for install:
 
 **1) add dependence:**
 ```
-composer require adiesel82/sypexgeo-laravel
+composer require adiesel82/geoservice-laravel
 ```
 
 **2) add next items into *config/app.php***
@@ -38,7 +39,7 @@ For the current moment SyperGeo service supported only.
 
 **Ready**
 
-###Usage example:
+### Usage example:
 ~~~php
 $result = \Geo::get(\request()->ip());
 dd($result);
@@ -60,7 +61,7 @@ As result:
 }
 ~~~
 
-###Auto update database with composer
+### Auto update database with composer
 ~~~
 "post-install-cmd": [
   "ADiesel82\\GeoService\\ComposerScripts::postInstall"
