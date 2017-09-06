@@ -60,3 +60,12 @@ As result:
 }
 ~~~
 
+###Auto update database with composer
+~~~
+"post-install-cmd": [
+  "ADiesel82\\GeoService\\ComposerScripts::postInstall"
+],
+"post-update-cmd": [
+  "ADiesel82\\GeoService\\ComposerScripts::postUpdate"
+],
+~~~
